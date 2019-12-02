@@ -15,17 +15,19 @@ end
 
 def compute_sequence(sequence)
   sequence.each_slice(4).each_with_object(sequence) do |step, result|
-    opcode = step[0]
+    break result if step[0] == EXIT_OPCODE
 
-    return result if opcode == EXIT_OPCODE
-
-    operation = operation_for(opcode)
-    left_input = sequence[step[1]]
-    right_input = sequence[step[2]]
     result_position = step[3]
-
-    result[result_position] = operation.call(left_input, right_input)
+    result[result_position] = compute_step(step, sequence)
   end
+end
+
+def compute_step(step, sequence)
+  operation = operation_for(step[0])
+  left_input = sequence[step[1]]
+  right_input = sequence[step[2]]
+  result_position = step[3]
+  operation.call(left_input, right_input)
 end
 
 def operation_for(opcode)
