@@ -26,7 +26,6 @@ def compute_step(step, sequence)
   operation = operation_for(step[0])
   left_input = sequence[step[1]]
   right_input = sequence[step[2]]
-  result_position = step[3]
   operation.call(left_input, right_input)
 end
 
